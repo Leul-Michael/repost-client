@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 
-const API_URL = "http://localhost:5000/api/users"
+const API_URL = "https://repost-api.onrender.com/api/users"
 
 export const REDUX_USER = "redux-posts-user"
 
