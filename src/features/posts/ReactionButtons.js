@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { MdOutlineModeComment } from "react-icons/md"
 import { useDispatch } from "react-redux"
+import { messageAdded } from "../message/messageSlice"
 import { REDUX_USER } from "../users/userSlice"
 import { likePost } from "./postsSlice"
 
@@ -13,6 +14,7 @@ const reactionIcons = {
 const ReactionButtons = ({ post }) => {
   const dispatch = useDispatch()
   const [liked, setLiked] = useState(false)
+  const [likeRequestStatus, setLikeRequestStatus] = useState(false)
 
   useEffect(() => {
     if (post.likes) {
@@ -22,10 +24,17 @@ const ReactionButtons = ({ post }) => {
     }
   }, [setLiked, post.likes])
 
-  const handleDispatch = (e, btnType) => {
+  const handleDispatch = async (e, btnType) => {
     e.preventDefault()
     if (btnType === "likes") {
-      dispatch(likePost(post?._id))
+      try {
+        setLikeRequestStatus(true)
+        await dispatch(likePost(post?._id)).unwrap()
+      } catch (e) {
+        dispatch(messageAdded(e))
+      } finally {
+        setLikeRequestStatus(false)
+      }
     }
   }
 
@@ -37,7 +46,7 @@ const ReactionButtons = ({ post }) => {
         onClick={(e) => handleDispatch(e, name)}
         type="button"
         className={`reactionButton ${name === "comments" ? "btn-comment" : ""}`}
-        disabled={name === "comments"}
+        disabled={name === "comments" || likeRequestStatus}
       >
         <span>{name === "likes" ? liked ? icon : <FaRegHeart /> : icon}</span>
         <span className="sm">{post[name].length}</span>
