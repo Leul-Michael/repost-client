@@ -57,6 +57,10 @@ const RegisterPage = () => {
       return dispatch(messageAdded("Email is not valid."))
     }
 
+    if (password.length < 6) {
+      return dispatch(messageAdded("Password must be at least 6 characters."))
+    }
+
     if (password !== confirmPwd) {
       return dispatch(messageAdded("Password do not match."))
     }
