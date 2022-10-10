@@ -1,13 +1,11 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { reset, selectUser } from "../features/users/userSlice"
-import { BiLogOutCircle } from "react-icons/bi"
+import { useSelector } from "react-redux"
+import { selectUser } from "../features/users/userSlice"
+import Dropdown from "./Dropdown"
 
 const Header = () => {
   const { user } = useSelector(selectUser)
-
-  const dispatch = useDispatch()
 
   return (
     <header className="header">
@@ -35,15 +33,7 @@ const Header = () => {
               </li>
             </>
           )}
-          {user && (
-            <button
-              onClick={() => dispatch(reset())}
-              title="Logout"
-              className="btn btn-logout"
-            >
-              <BiLogOutCircle />
-            </button>
-          )}
+          {user && <Dropdown user={user} />}
         </ul>
       </div>
     </header>

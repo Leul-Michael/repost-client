@@ -19,11 +19,17 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      await dispatch(login({ email: email.toLowerCase(), password })).unwrap()
+      const response = await dispatch(
+        login({ email: email.toLowerCase(), password })
+      ).unwrap()
 
-      setEmail("")
-      setPassword("")
-      navigate("/")
+      if (response.message) {
+        dispatch(messageAdded("Connection timeout, check your internet."))
+      } else {
+        setEmail("")
+        setPassword("")
+        navigate("/")
+      }
     } catch (e) {
       dispatch(messageAdded(e))
       dispatch(reset())
