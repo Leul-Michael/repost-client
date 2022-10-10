@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit"
 import axios from "axios"
 
-const POSTS_URL = "https://repost-api.onrender.com/api/posts"
+const POSTS_URL = "https://teal-attractive-elk.cyclic.app/api/posts"
 
 const postsAdapter = createEntityAdapter({
   selectId: (post) => post._id,

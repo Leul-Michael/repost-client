@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux"
 import { removeComment } from "./postsSlice"
 import EditCommentForm from "./EditCommentForm"
 import { REDUX_USER } from "../users/userSlice"
+import { messageAdded } from "../message/messageSlice"
 
 const PostComment = ({ comment, post }) => {
   const dispatch = useDispatch()
@@ -14,14 +15,22 @@ const PostComment = ({ comment, post }) => {
     JSON.parse(localStorage.getItem(REDUX_USER)).id === comment?.user?._id
 
   const [editHtml, setEditHtml] = useState(null)
+  const [requestStatus, setRequestStatus] = useState("idle")
 
-  const handleRemoveComment = (e, commentId) => {
+  const handleRemoveComment = async (e, commentId) => {
     e.preventDefault()
     const postComment = {
       id: post._id,
       commentId,
     }
-    dispatch(removeComment(postComment))
+    try {
+      setRequestStatus("loading")
+      await dispatch(removeComment(postComment)).unwrap()
+    } catch (e) {
+      dispatch(messageAdded(e))
+    } finally {
+      setRequestStatus("idle")
+    }
   }
 
   const handleEditComment = (e, comment) => {
@@ -54,6 +63,7 @@ const PostComment = ({ comment, post }) => {
             <button
               onClick={(e) => handleRemoveComment(e, comment._id)}
               className="btn btn-your-comment btn-delete"
+              disabled={requestStatus === "loading"}
             >
               <AiFillDelete />
             </button>

@@ -9,6 +9,7 @@ const EditCommentForm = ({ post, comment, setEditHtml }) => {
 
   const editModalRef = useRef(null)
   const [newComment, setNewComment] = useState(comment?.body)
+  const [requestStatus, setRequestStatus] = useState("idle")
 
   const closeModalOnBlur = useCallback(
     (e) => {
@@ -30,6 +31,7 @@ const EditCommentForm = ({ post, comment, setEditHtml }) => {
   const saveComment = async (e) => {
     e.preventDefault()
     try {
+      setRequestStatus("loading")
       const postComment = {
         id: post._id,
         commentId: comment._id,
@@ -41,6 +43,8 @@ const EditCommentForm = ({ post, comment, setEditHtml }) => {
       setEditHtml(null)
     } catch (e) {
       dispatch(messageAdded(e))
+    } finally {
+      setRequestStatus("idle")
     }
   }
 
@@ -65,8 +69,12 @@ const EditCommentForm = ({ post, comment, setEditHtml }) => {
           placeholder={"Add comment..."}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <button type="submit" className="btn btn-form">
-          Save
+        <button
+          type="submit"
+          className="btn btn-form"
+          disabled={requestStatus === "loading"}
+        >
+          {requestStatus === "idle" ? "Save" : "Saving..."}
         </button>
       </form>
     </div>

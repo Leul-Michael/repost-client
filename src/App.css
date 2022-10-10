@@ -300,7 +300,7 @@ button:disabled {
 }
 
 .post-comment__form form {
-  --height: 35px;
+  --height: 40px;
   display: flex;
   flex-direction: row;
   gap: .75rem;
@@ -626,7 +626,11 @@ button:disabled {
   }
 
   .post-comment__form.edit-form { 
-    width: 95%;
+    width: 90%;
     padding: 1rem;
+  }
+
+  .post-comment__form.edit-form input {
+    height: 45px;
   }
 }
