@@ -15,7 +15,7 @@ const PostComment = ({ comment, post }) => {
     JSON.parse(localStorage.getItem(REDUX_USER)).id === comment?.user?._id
 
   const [editHtml, setEditHtml] = useState(null)
-  const [requestStatus, setRequestStatus] = useState("idle")
+  const [requestStatus, setRequestStatus] = useState(false)
 
   const handleRemoveComment = async (e, commentId) => {
     e.preventDefault()
@@ -24,12 +24,12 @@ const PostComment = ({ comment, post }) => {
       commentId,
     }
     try {
-      setRequestStatus("loading")
+      setRequestStatus(true)
       await dispatch(removeComment(postComment)).unwrap()
     } catch (e) {
       dispatch(messageAdded(e))
     } finally {
-      setRequestStatus("idle")
+      setRequestStatus(false)
     }
   }
 
@@ -48,7 +48,13 @@ const PostComment = ({ comment, post }) => {
       {editHtml ? editHtml : null}
       <div key={comment._id} className="post__comments-comment">
         <div className="comment-header">
-          <p className="comment-by">{canEdit ? "You" : comment?.user.name}</p>
+          <p className="comment-by">
+            {canEdit
+              ? "You"
+              : comment?.user.name
+              ? comment?.user.name
+              : "Unknown"}
+          </p>
           <TimeAgo timestamp={comment.date} />
         </div>
         <p className="comment-body">{comment?.body}</p>
@@ -63,7 +69,7 @@ const PostComment = ({ comment, post }) => {
             <button
               onClick={(e) => handleRemoveComment(e, comment._id)}
               className="btn btn-your-comment btn-delete"
-              disabled={requestStatus === "loading"}
+              disabled={requestStatus}
             >
               <AiFillDelete />
             </button>

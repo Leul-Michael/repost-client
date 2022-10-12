@@ -9,9 +9,9 @@ const AddCommentForm = ({ post }) => {
   const navigate = useNavigate()
 
   const [comment, setComment] = useState("")
-  const [requestStatus, setRequestStatus] = useState("idle")
+  const [requestStatus, setRequestStatus] = useState(false)
 
-  const canSave = Boolean(comment) && requestStatus === "idle"
+  const canSave = Boolean(comment) && !requestStatus
 
   const handleComment = async (e) => {
     e.preventDefault()
@@ -20,7 +20,7 @@ const AddCommentForm = ({ post }) => {
       comment: comment,
     }
     try {
-      setRequestStatus("loading")
+      setRequestStatus(true)
       await dispatch(addComment(postComment)).unwrap()
 
       setComment("")
@@ -28,7 +28,7 @@ const AddCommentForm = ({ post }) => {
       dispatch(messageAdded(e))
     } finally {
       navigate(`/post/${post._id}`)
-      setRequestStatus("idle")
+      setRequestStatus(false)
     }
   }
 
@@ -43,7 +43,7 @@ const AddCommentForm = ({ post }) => {
           onChange={(e) => setComment(e.target.value)}
         />
         <button disabled={!canSave} type="submit" className="btn btn-form">
-          {requestStatus === "idle" ? "Comment" : "Requesting..."}
+          {!requestStatus ? "Comment" : "Requesting..."}
         </button>
       </form>
     </div>

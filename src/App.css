@@ -170,7 +170,7 @@ button:disabled {
 .header ul.dropdown {
   position: relative;
 }
-.header ul.dropdown, .header ul.dropdown li {
+.header ul.dropdown {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -211,11 +211,12 @@ button:disabled {
 
 .dropdown__conent li {
   margin: 0;
+  width: 250px;
 }
 
 .header ul.dropdown li.dropdown__user-details {
   display: grid;
-  gap: .5rem;
+  gap: .75rem;
   grid-template-columns: 40px 1fr;
   align-items: flex-start;
   height: 40px;
@@ -232,14 +233,15 @@ button:disabled {
 }
 
 li.dropdown-btn {
+  display: flex;
+  align-self: center;
+  justify-content: flex-start;
+  width: 100%;
+  cursor: pointer;
+}
+li.dropdown-btn a {
   width: 100%;
 }
-
-li.dropdown-btn a{
-  width: 100%;
-  align-self: flex-start;
-}
-
 .login-form, .post__form {
   max-width: 500px;
   margin-inline: auto;
@@ -263,7 +265,7 @@ li.dropdown-btn a{
   margin-bottom: 10px;
 }
 
-.form-group input, .post__form input, .post-comment__form input, .post__form textarea {
+.form-group input, .input-box input, .post__form input, .post-comment__form input, .post__form textarea {
   width: 100%;
   height: 50px;
   border: 1px solid var(--clr-border);
@@ -279,7 +281,7 @@ li.dropdown-btn a{
   padding: .75rem;
 }
 
-.form-group input:focus, .form-group input:valid, .btn:focus, .btn:active, .post__form input:focus, .post__form textarea:focus {
+.form-group input:focus, .input-box input:focus, .form-group input:valid, .btn:focus, .btn:active, .post__form input:focus, .post__form textarea:focus {
   outline: 1px solid var(--clr-border);
 }
 
@@ -289,6 +291,55 @@ li.dropdown-btn a{
   font-size: 0.75rem;
   padding-inline: 10px;
   background-color: var(--clr-bg);
+}
+
+/* Profile page form */
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.input-box.input-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.input-box, .change-password .input-box {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.input-box input {
+  max-width: 500px;
+  justify-self: flex-end;
+}
+
+.change-password .input-box {
+  justify-content: center;
+}
+
+.input-box.input-btn .btn-form, .change-password .input-box .btn-form{
+  font-weight: 600;
+  font-size: .9rem;
+  height: 40px;
+  justify-self: flex-end;
+}
+
+.input-box label {
+  font-weight: 600;
+  color: var(--clr-border);
+}
+
+.change-password {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--clr-message);
+}
+
+.change-password.danger-zone {
+  border-top: 1px solid var(--clr-red);
 }
 
 .btn {
@@ -388,7 +439,7 @@ li.dropdown-btn a{
   border: 1px solid var(--clr-border);
 }
 
-.post-comment__form .btn-form {
+.post-comment__form .btn-form, .confirmation .btn-form {
   height: var(--height);
   background-color: var(--clr-body);
   font-size: .75rem;
@@ -565,6 +616,50 @@ li.dropdown-btn a{
   color: var(--clr-caution-icon);
 }
 
+/* Confirmation */
+.confirmation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  padding: 1.5rem;
+  background-color: var(--clr-bg);
+  border-radius: 5px;
+  border: 1px solid var(--clr-message);
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+  z-index: 100;
+}
+
+.confirmation .btn-form-close {
+  margin-bottom: 0rem;
+}
+
+.confirmation-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.confirmation-content p {
+  line-height: 1.2;
+  font-size: 1rem;
+}
+
+.confirmation__buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.confirmation__buttons .btn {
+  padding: 10px 15px;
+}
+
+.confirmation__buttons .btn-danger {
+  background-color: var(--clr-red);
+}
+
 /* toggle Icon */
 .switch {
   --width: 14px;
@@ -680,8 +775,13 @@ li.dropdown-btn a{
   .header ul.dropdown__conent {
     top: calc(100% + 20px);
   }
+
   .header ul.dropdown.open ul.dropdown__conent {
     top: calc(100% + 10px);
+  }
+
+  .dropdown__conent li {
+    width: 200px;
   }
 
   .login-form, .post__form {
@@ -700,12 +800,26 @@ li.dropdown-btn a{
     flex-wrap: wrap;
   }
 
-  .post-comment__form.edit-form { 
+  .post-comment__form.edit-form, .confirmation { 
     width: 90%;
     padding: 1rem;
   }
 
   .post-comment__form.edit-form input {
     height: 45px;
+  }
+
+  .input-box, .change-password .input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .input-box.input-btn, .change-password .input-box .btn-form {
+    align-items: flex-start;
+  }
+
+  .change-password .input-box {
+    align-items: flex-start;
   }
 }

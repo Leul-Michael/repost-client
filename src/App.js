@@ -11,6 +11,7 @@ import Header from "./components/Header"
 import Message from "./components/Message"
 import SinglePostForm from "./features/posts/SinglePostForm"
 import EditPostForm from "./features/posts/EditPostForm"
+import UserProfile from "./features/users/UserProfile"
 
 const App = () => {
   const { user } = useSelector(selectUser)
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="new/post" element={<AddPostForm />} />
           <Route path="post/:postId" element={<SinglePostForm />} />
           <Route path="edit/:postId" element={<EditPostForm />} />
+          <Route path="user/me" element={<UserProfile />} />
         </Route>
         <Route
           path="/login"
