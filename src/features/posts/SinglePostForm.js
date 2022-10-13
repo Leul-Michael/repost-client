@@ -13,6 +13,8 @@ const SinglePostForm = () => {
 
   const post = useSelector((state) => selectPostById(state, postId))
 
+  window.scrollTo(0, 0)
+
   if (!post) {
     return (
       <section className="post-container">

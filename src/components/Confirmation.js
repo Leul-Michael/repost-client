@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from "react"
 import { AiOutlineCloseCircle } from "react-icons/ai"
 
-const Confirmation = ({ setOpenModal, action }) => {
+const Confirmation = ({ setOpenModal, action, status }) => {
   const confirmModalRef = useRef(null)
 
   const closeModalOnBlur = useCallback(
@@ -31,7 +31,7 @@ const Confirmation = ({ setOpenModal, action }) => {
         <AiOutlineCloseCircle />
       </button>
       <div className="confirmation-content">
-        <p>Are you sure you want to do this, this actions are irreversible!</p>
+        <p>Are you sure you want to do this, this action is irreversible!</p>
         <div className="confirmation__buttons">
           <button onClick={() => setOpenModal(false)} className="btn btn-form">
             Cancel
@@ -40,7 +40,7 @@ const Confirmation = ({ setOpenModal, action }) => {
             className="btn btn-form btn-danger"
             onClick={(e) => action(e)}
           >
-            Delete
+            {!status ? "Delete" : "Deleting..."}
           </button>
         </div>
       </div>

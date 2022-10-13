@@ -9,14 +9,18 @@ const Deactivate = ({ user, status }) => {
   const dispatch = useDispatch()
 
   const [openModal, setOpenModal] = useState(false)
+  const [requestStatus, setRequestStatus] = useState(false)
 
   const handleDeactivate = async (e) => {
     e.preventDefault()
     try {
+      setRequestStatus(true)
       await dispatch(deactivate(user.id)).unwrap()
       dispatch(messageAdded("Account Deactivated Successfully!"))
     } catch (e) {
       dispatch(messageAdded(e))
+    } finally {
+      setRequestStatus(false)
     }
   }
 
@@ -24,7 +28,11 @@ const Deactivate = ({ user, status }) => {
     <div className="change-password danger-zone">
       <Caution content="Deleting your account will remove all your posts and comments from the platform!" />
       {openModal && (
-        <Confirmation setOpenModal={setOpenModal} action={handleDeactivate} />
+        <Confirmation
+          setOpenModal={setOpenModal}
+          action={handleDeactivate}
+          status={requestStatus}
+        />
       )}
       <div className="input-box">
         <label>Deactivate Account</label>

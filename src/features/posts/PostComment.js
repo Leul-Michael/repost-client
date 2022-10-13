@@ -49,11 +49,13 @@ const PostComment = ({ comment, post }) => {
       <div key={comment._id} className="post__comments-comment">
         <div className="comment-header">
           <p className="comment-by">
-            {canEdit
-              ? "You"
-              : comment?.user.name
-              ? comment?.user.name
-              : "Unknown"}
+            {canEdit ? (
+              "You"
+            ) : comment?.user?.name ? (
+              comment?.user.name
+            ) : (
+              <span className="clr-danger">[Deleted Account]</span>
+            )}
           </p>
           <TimeAgo timestamp={comment.date} />
         </div>

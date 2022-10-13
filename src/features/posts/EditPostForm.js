@@ -5,6 +5,7 @@ import { deletePost, updatePost, selectPostById } from "./postsSlice"
 import LoadingSpinner from "../../components/LoadingSpinner"
 import { messageAdded } from "../message/messageSlice"
 import Caution from "../../components/Caution"
+import { REDUX_USER } from "../users/userSlice"
 
 const EditPostForm = () => {
   const { postId } = useParams()
@@ -21,11 +22,17 @@ const EditPostForm = () => {
 
   useEffect(() => {
     if (post) {
+      if (post.user._id !== JSON.parse(localStorage.getItem(REDUX_USER)).id) {
+        dispatch(messageAdded("Not Authorized!"))
+        navigate("/")
+        return
+      }
+
       setTitle(post.title)
       setContent(post.content)
       setIsPrivate(post.isPrivate)
     }
-  }, [post])
+  }, [post, dispatch, navigate])
 
   if (!post) {
     return (

@@ -6,7 +6,6 @@ import {
 import axios from "axios"
 
 const POSTS_URL = "https://teal-attractive-elk.cyclic.app/api/posts"
-// const POSTS_URL = "http://localhost:5000/api/posts"
 
 const postsAdapter = createEntityAdapter({
   selectId: (post) => post._id,
